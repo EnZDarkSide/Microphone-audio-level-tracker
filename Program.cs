@@ -10,7 +10,6 @@ using System.Diagnostics;
 
 namespace Volume
 {
-    //
     class Program
     {
         private static double audioValueMax = 1;
@@ -36,17 +35,17 @@ namespace Volume
         {
             float max = 0;
 
-            // interpret as 16 bit audio
+            // перевод в 16-битный звук
             for (int index = 0; index < args.BytesRecorded; index += 2)
             {
                 short sample = (short)((args.Buffer[index + 1] << 8) |
                                         args.Buffer[index + 0]);
-                var sample32 = sample / 32768f; // to floating point
-                if (sample32 < 0) sample32 = -sample32; // absolute value 
-                if (sample32 > max) max = sample32; // is this the max value?
+                var sample32 = sample / 32768f; 
+                if (sample32 < 0) sample32 = -sample32; // Модуль значения 
+                if (sample32 > max) max = sample32; // Это максимальное значение?
             }
 
-            // calculate what fraction this peak is of previous peaks
+            // вычисление максимального значения по сравнению с остальными значениями
             if (max > audioValueMax)
             {
                 audioValueMax = (double)max;
